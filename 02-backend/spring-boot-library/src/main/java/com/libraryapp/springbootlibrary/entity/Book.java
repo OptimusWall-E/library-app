@@ -1,8 +1,7 @@
 package com.libraryapp.springbootlibrary.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; //for passing in everything we need for creating tables as entities
 import lombok.Data;
-import javax.persistence.*; //for passing in everything we need for creating tables as entities
 
 @Entity
 @Table(name = "book") // "book" is the name of the table in mySQL database
