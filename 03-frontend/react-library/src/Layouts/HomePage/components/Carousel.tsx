@@ -1,6 +1,26 @@
 import { ReturnBook } from "./ReturnBook";
+import { useEffect, useState } from "react";
+import BookModel from "../../../Models/BookModel";
 
 export const Carousel = () => {
+
+  const [books, setBooks] = useState<BookModel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
+
+  useEffect (() => {
+    // async. Must wait for a promise to resolve. Promise is a value not necessarily known when at moment of creation. 
+    // Allows you to associate handlers with an asynchronous action's eventual success value or failure reason.
+    const fetchBooks = async () => {
+
+    };
+    // Try to get book data. If there is any error, set isLoading to false and set httpError to whatever the error message is.
+    fetchBooks().catch((error: any) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    })
+
+  }, [])
   return (
     <div className='container mt-5' style={{ height: 550 }}>
       <div className='homepage-carousel-title'>
