@@ -12,6 +12,46 @@ export const Carousel = () => {
     // async. Must wait for a promise to resolve. Promise is a value not necessarily known when at moment of creation. 
     // Allows you to associate handlers with an asynchronous action's eventual success value or failure reason.
     const fetchBooks = async () => {
+      // API to fetch book data from SpringBoot
+      // Endpoint
+      const baseUrl: string = "http://localhost:8080/api/books";
+      
+      // Actual url used. Set to first page and to nine books (carousel has three books at a time and swipes three times).
+      const url: string = `${baseUrl}?page=0&size=9`
+
+      // response variable will be set to whatever is returned from the backend, asynchronously
+      const response = await fetch(url);
+
+      // throw error if promise is not successful
+      if(!response.ok){
+        throw new Error('Something went wrong!');
+      }
+
+      // turn response into JSON
+      const responseJson = await response.json();
+
+      // variable allows us to access the JSON data easily
+      const responseData = responseJson._embedded.books;
+
+      // create loadedBooks variable and initialise it as empty array
+      const loadedBooks: BookModel[] = [];
+
+      // iterate over every book in responseData to pass it in as a loaded book
+      for (const key in responseData) {
+        loadedBooks.push({
+          id: responseData[key].id,
+          title: responseData[key].title,
+          author: responseData[key].author,
+          description: responseData[key].description,
+          copies: responseData[key].copies,
+          copiesAvailable: responseData[key].copiesAvailable,
+          category: responseData[key].category,
+          img: responseData[key].img,
+        })
+      }
+
+      setBooks(loadedBooks);
+      setIsLoading(false);
 
     };
     // Try to get book data. If there is any error, set isLoading to false and set httpError to whatever the error message is.
